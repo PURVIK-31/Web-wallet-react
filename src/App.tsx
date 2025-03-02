@@ -39,18 +39,20 @@ function SeedGenerator() {
   };
 
   return (
-    <div className="bg-black text-white p-4 min-h-screen">
-      <h1 className="bg-black text-8xl  text-white text-center">
+    <div className="bg-black font-mono text-white mb-7 pb-5 p-4 min-h-screen">
+      <h1 className="bg-black text-8xl  text-blue-300 text-center">
         Create a Seed Phrase
       </h1>
 
-      <p className="mt-6 text-center text-mono">
-        Generate a mnemonic seed phrase for Solana and Ethereum wallets
+      <p className="mt-8 pt-6 text-center text-mono text-yellow-300">
+        Generate a mnemonic seed phase for Solana and Ethereum wallets
       </p>
 
       <div className="flex flex-col items-center justify-center mt-6">
-        <div className="mb-4">
-          <label className="mr-4">Choose seed phrase length:</label>
+        <div className="mb-6 mt-7">
+          <label className="mr-4 mt-6 text-white">
+            Choose seed phrase length:
+          </label>
           <select
             value={seedLength}
             onChange={(e) => setSeedLength(e.target.value as "12" | "24")}
@@ -63,7 +65,7 @@ function SeedGenerator() {
 
         <button
           onClick={generateSeedPhrase}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-red-500 hover:bg-blue-700 text-white font-bold mt-7 py-2 px-4 rounded"
           disabled={loading}
         >
           {loading
