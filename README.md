@@ -1,8 +1,64 @@
 # Web-wallet-react
 
-A React-based web wallet application.
+A secure, user-friendly web wallet application for managing digital assets.
 
 ## About this project
+
+Web-wallet-react is a modern cryptocurrency wallet application that allows users to securely store, send, and receive digital assets through an intuitive web interface.
+
+## Features
+
+- Secure wallet creation and management
+- Support for multiple cryptocurrencies
+- Real-time balance and transaction updates
+- QR code generation for easy deposits
+- Transaction history and tracking
+- Secure authentication system
+- Responsive design for desktop and mobile devices
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/PURVIK-31/Web-wallet-react.git
+
+# Navigate to the project directory
+cd Web-wallet-react
+
+# Install dependencies
+npm install
+# or with Bun
+bun install
+
+# Start the development server
+npm run dev
+# or with Bun
+bun run dev
+```
+
+## Usage
+
+### Creating a New Wallet
+
+1. Navigate to the homepage
+2. Click "Create Wallet"
+3. Follow the security steps to generate your new wallet
+4. Be sure to store your recovery phrase in a secure location
+
+### Sending Funds
+
+1. Go to the "Send" section of your wallet
+2. Enter the recipient's address
+3. Specify the amount to send
+4. Review transaction details and confirm
+
+### Receiving Funds
+
+1. Navigate to the "Receive" section
+2. Copy your wallet address or share the generated QR code
+3. Monitor your transaction history for incoming funds
+
+## Development
 
 This project is built with React + TypeScript + Vite.
 
