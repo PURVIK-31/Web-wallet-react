@@ -1,0 +1,1 @@
+// ...existing code...};  };    // You might have other properties here    privateKey: wallet.privateKey,    address: wallet.address,  return {    const wallet = ethers.Wallet.createRandom();export const generateWalletAddress = () => {// ...existing code...import { ethers } from 'ethers';
