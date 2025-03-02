@@ -11,7 +11,6 @@ import {
   ArrowLeft,
   Copy,
   CheckCircle,
-  Layers,
 } from "lucide-react";
 
 interface LocationState {
@@ -361,7 +360,7 @@ const WalletManager: React.FC = () => {
       </footer>
 
       {/* Add global styles for animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes blob {
           0% {
             transform: scale(1);

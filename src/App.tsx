@@ -430,7 +430,7 @@ function SeedGenerator() {
       </footer>
 
       {/* Add global styles for animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes blob {
           0% {
             transform: scale(1);

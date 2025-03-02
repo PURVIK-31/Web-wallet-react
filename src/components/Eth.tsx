@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { mnemonicToSeed } from "bip39";
 import { Wallet, HDNodeWallet } from "ethers";
 import {
@@ -315,7 +315,7 @@ export const Eth = ({ mnemonic }: EthProps) => {
       )}
 
       {/* Animated slide-in labels for new wallets */}
-      <style jsx>{`
+      <style>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
