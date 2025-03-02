@@ -1,116 +1,169 @@
-# Web-wallet-react
+# Web-Based Cryptocurrency Wallet
 
-A secure, user-friendly web wallet application for managing digital assets.
+## Overview
 
-## About this project
-
-Web-wallet-react is a modern cryptocurrency wallet application that allows users to securely store, send, and receive digital assets through an intuitive web interface.
+This project is a simple web-based cryptocurrency wallet that allows users to generate wallet addresses for multiple blockchains (Ethereum and Solana) from a single seed phrase. Built with React and TypeScript, it demonstrates the principles of hierarchical deterministic (HD) wallets.
 
 ## Features
 
-- Secure wallet creation and management
-- Support for multiple cryptocurrencies
-- Real-time balance and transaction updates
-- QR code generation for easy deposits
-- Transaction history and tracking
-- Secure authentication system
-- Responsive design for desktop and mobile devices
+- Generate 12 or 24-word mnemonic seed phrases
+- Derive multiple wallet addresses from a single seed.
+- Support for Ethereum (ETH) addresses
+- Support for Solana (SOL) addresses.
+- Client-side only implementation (no server communication).
 
-## Installation
+## Technical Implementation
+
+### Key Dependencies
+
+- React + TypeScript
+- `bip39` - For mnemonic generation and seed derivation.
+- `ethers` - For Ethereum wallet functionality.
+- `@solana/web3.js` - For Solana wallet functionality.
+- `ed25519-hd-key` - For Solana key derivation.
+
+### Component Structure
+
+- `App.tsx` - Main application component that handles mnemonic generation.
+- `Eth.tsx` - Component for generating Ethereum addresses.
+- `Solana.tsx` - Component for generating Solana addresses.
+
+### Key Concepts
+
+#### HD Wallet Derivation
+
+- Uses BIP39 for mnemonic to seed conversion.
+- Implements proper derivation paths for each blockchain.
+
+#### Wallet Address Generation
+
+- For Ethereum: `m/44'/60'/{index}'/0'` path.
+- For Solana: `m/44'/501'/{index}'/0'` path.
+
+#### State Management
+
+- Uses React hooks for managing wallet addresses.
+- Incremental index counter for generating sequential addresses.
+
+## How It Works
+
+### Mnemonic Generation
+
+```typescript
+const mn = generateMnemonic(256); // 24 words
+// or
+const mn = generateMnemonic(128); // 12 words
+```
+
+### Ethereum Address Derivation (TypeScript)
+
+```typescript
+import { HDNodeWallet, Wallet } from "ethers";
+import { mnemonicToSeed } from "bip39";
+
+async function deriveEthereumAddress(
+  mnemonic: string,
+  index: number
+): Promise<string> {
+  const seed = await mnemonicToSeed(mnemonic);
+  const derivationPath = `m/44'/60'/${index}'/0'`;
+  const hdNode = HDNodeWallet.fromSeed(seed);
+  const child = hdNode.derivePath(derivationPath);
+  const privateKey = child.privateKey;
+  const wallet = new Wallet(privateKey);
+  return wallet.address;
+}
+
+// Example usage:
+// const address = await deriveEthereumAddress(yourMnemonic, 0);
+// console.log(address);
+```
+
+### Solana Address Derivation (TypeScript)
+
+```typescript
+import { Keypair } from "@solana/web3.js";
+import { mnemonicToSeed } from "bip39";
+import { derivePath } from "ed25519-hd-key";
+import nacl from "tweetnacl";
+
+async function deriveSolanaAddress(
+  mnemonic: string,
+  index: number
+): Promise<string> {
+  const seed = await mnemonicToSeed(mnemonic);
+  const path = `m/44'/501'/${index}'/0'`;
+  const derivedSeed = derivePath(path, seed.toString("hex")).key;
+  const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
+  const keypair = Keypair.fromSecretKey(secret);
+  return keypair.publicKey.toString();
+}
+
+// Example usage:
+// const address = await deriveSolanaAddress(yourMnemonic, 0);
+// console.log(address);
+```
+
+### Security Considerations
+
+- This is a demonstration project and not intended for production use.
+- Seed phrases should never be stored in plain text or transmitted over the network.
+- For real-world use, consider hardware wallets or secure key management solutions.
+
+### Future Improvements
+
+- Add balance checking functionality.
+- Implement transaction signing and sending.
+- Add more blockchain networks.
+- Improve UI with more detailed wallet information.
+- Add proper key encryption for improved security.
+
+### Educational Value
+
+This project demonstrates:
+
+- How cryptocurrency wallets work under the hood.
+- The principles of hierarchical deterministic wallets.
+- Cross-blockchain compatibility with a single seed phrase.
+- React component design for crypto applications.
+- TypeScript implementation for blockchain related code.
+
+### Installation
+
+#### Clone the repository:
 
 ```bash
-# Clone the repository
-git clone https://github.com/PURVIK-31/Web-wallet-react.git
+git clone [repository URL]
+cd [project directory]
+```
 
-# Navigate to the project directory
-cd Web-wallet-react
+#### Install dependencies:
 
-# Install dependencies
+```bash
 npm install
-# or with Bun
-bun install
-
-# Start the development server
-npm run dev
-# or with Bun
-bun run dev
 ```
 
-## Usage
+#### Start the development server:
 
-### Creating a New Wallet
-
-1. Navigate to the homepage
-2. Click "Create Wallet"
-3. Follow the security steps to generate your new wallet
-4. Be sure to store your recovery phrase in a secure location
-
-### Sending Funds
-
-1. Go to the "Send" section of your wallet
-2. Enter the recipient's address
-3. Specify the amount to send
-4. Review transaction details and confirm
-
-### Receiving Funds
-
-1. Navigate to the "Receive" section
-2. Copy your wallet address or share the generated QR code
-3. Monitor your transaction history for incoming funds
-
-## Development
-
-This project is built with React + TypeScript + Vite.
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-],
-languageOptions: {
-    // other options...
-    parserOptions: {
-    project: ['./tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: import.meta.dirname,
-    },
-},
-})
+```bash
+npm start
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Open the application in your browser.
+- Generate a new mnemonic phrase or input an existing one.
+- Generate Ethereum or Solana addresses by clicking the respective buttons.
+- View the generated addresses.
 
-export default tseslint.config({
-plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-},
-rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-},
-})
-```
+### Contributing
+
+- Fork the repository.
+- Create your feature branch (`git checkout -b feature/AmazingFeature`).
+- Commit your changes (`git commit -am 'Add some AmazingFeature'`).
+- Push to the branch (`git push origin feature/AmazingFeature`).
+- Open a pull request.
+
+### License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
