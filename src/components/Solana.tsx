@@ -28,8 +28,6 @@ const Solana = ({ mnemonic }: SolanaProps) => {
       >
         Click for generting a wallet!!
       </button>
-      <textarea value={mnemonic} readOnly />
-      <textarea value={mnemonicToSeed(mnemonic).toString()} readOnly />
       {publicKeys.map((p) => (
         <div>{p.toBase58()}</div>
       ))}
