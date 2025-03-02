@@ -1,7 +1,7 @@
 import { generateMnemonic } from "bip39";
 import { useState } from "react";
 import Solana from "./components/Solana";
-import Eth from "./components/Eth";
+import { Eth } from "./components/Eth";
 function App() {
   const [mnemonic, setMnemonic] = useState("");
   return (
@@ -33,7 +33,7 @@ function App() {
       <h2>{mnemonic}</h2>
 
       <Solana mnemonic={mnemonic} />
-      {/* <Eth mnemonic={mnemonic} /> */}
+      <Eth mnemonic={mnemonic} />
     </>
   );
 }
