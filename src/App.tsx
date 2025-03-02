@@ -6,8 +6,6 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import Solana from "./components/Solana";
-import { Eth } from "./components/Eth";
 import Loader from "./components/Loader";
 import WalletManager from "./pages/WalletManager";
 
